@@ -4,12 +4,36 @@ const { Webim } = NativeModules;
 
 const eventEmitter = new NativeEventEmitter(Webim);
 
-Webim.onMessageAdded = callback => { 
+//** Callback, when new message added */
+const onMessageAdded = callback => {
     eventEmitter.addListener('messageAdded', (event) => {
         callback(event)
     });
- }
+}
+
+const resume = (params = {}) => {
+    return Webim.resume({
+        ...params,
+        userFields: params.userFields ? JSON.stringify(params.userFields) : null,
+    })
+}
+
+const getLastMessages = (
+    count = 10,
+    errorCallback = () => { },
+    successCallback = () => { }) => {
+    Webim.getLastMessages(count, errorCallback, successCallback)
+}
+
+const sendMessage = (text = '') => {
+    return Webim.sendMessage(text)
+}
 
 
 
-export default Webim;
+export default {
+    onMessageAdded,
+    resume,
+    getLastMessages,
+    sendMessage,
+};

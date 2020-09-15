@@ -40,14 +40,19 @@ public class WebimModule extends ReactContextBaseJavaModule implements MessageLi
         return "Webim";
     }
 
-    private void build(String accountName, String location) {
-        session = Webim.newSessionBuilder().setContext(this.reactContext).setAccountName(accountName)
-                .setLocation(location).setLogger(new WebimLog() {
+    private void build(String accountName, String location, String userFields) {
+        Webim.SessionBuilder builder = Webim.newSessionBuilder().setContext(this.reactContext)
+                .setAccountName(accountName).setLocation(location)
+                .setLogger(new WebimLog() {
                     @Override
                     public void log(String log) {
                         Log.i("WEBIM LOG", log);
                     }
-                }, Webim.SessionBuilder.WebimLogVerbosityLevel.VERBOSE).build();
+                }, Webim.SessionBuilder.WebimLogVerbosityLevel.VERBOSE);
+        if (userFields != null) {
+            builder.setVisitorFieldsJson(userFields);
+        }
+        session = builder.build();
     }
 
     @ReactMethod
@@ -55,9 +60,10 @@ public class WebimModule extends ReactContextBaseJavaModule implements MessageLi
 
         String accountName = builderData.getString("accountName");
         String location = builderData.getString("location");
+        String userFields = builderData.getString("userFields");
 
         if (session == null) {
-            build(accountName, location);
+            build(accountName, location, userFields);
         }
 
         if (session == null) {
