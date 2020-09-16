@@ -18,11 +18,20 @@ const resume = (params = {}) => {
     })
 }
 
+const destroy = (clearData = false) => {
+    return new Promise((resolve, reject) => {
+        Webim.destroy(clearData, err => reject(err), res => resolve(res))
+    })
+}
+
 const getLastMessages = (
-    count = 10,
-    errorCallback = () => { },
-    successCallback = () => { }) => {
-    Webim.getLastMessages(count, errorCallback, successCallback)
+    count = 10) => {
+    return new Promise((resolve, reject) => {
+        Webim.getLastMessages(count,
+            error => reject(err),
+            res => resolve(res))
+    })
+    
 }
 
 const sendMessage = (text = '') => {

@@ -78,6 +78,21 @@ public class WebimModule extends ReactContextBaseJavaModule implements MessageLi
     }
 
     @ReactMethod
+    public void destroy(Boolean clearData, final Callback errorCallback, final Callback successCallback) {
+        if (session != null) {
+            session.getStream().closeChat();
+            tracker.destroy();
+            if (clearData) {
+             session.destroyWithClearVisitorData();
+            } else {
+                session.destroy();
+            }
+            session = null;
+        }
+        successCallback.invoke(Arguments.createMap());
+    }
+
+    @ReactMethod
     public void sendMessage(String message, Promise promise) {
         try {
             session.getStream().sendMessage(message);
