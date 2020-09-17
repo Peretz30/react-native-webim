@@ -16,8 +16,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-webim.git",
-    "baseUrl": "https://github.com/github_account/react-native-webim"
+    "url": "git+https://github.com/peretz30/react-native-webim.git",
+    "baseUrl": "https://github.com/peretz30/react-native-webim"
   },
   "keywords": [
     "react-native"
